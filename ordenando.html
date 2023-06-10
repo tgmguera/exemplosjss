@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordenando</title>
+  <script src="ordenando.js"></script>
+</head>
+<body>
+  <label for="valor">Valor:</label>
+  <input type="number" id="valor">
+
+  <button onclick="add()">Adicionar</button>
+
+  <label for="algoritmo">Algoritmo:</label>
+  <select id="algoritmo">
+    <option value="bubble_sort" selected>Bubble Sort</option>
+    <option value="selection_sort">Selection Sort</option>
+    <option value="quick_sort">Quick Sort</option>
+  </select>
+
+  <button onclick="ordenar()">Ordenar</button>
+  <button onclick="misturar()">Misturar</button>
+
+  <ul id="valores"></ul>
+
+  <script>
+    function add() {
+      const input = document.getElementById("valor");
+      const value = parseInt(input.value);
+      if (!isNaN(value)) {
+        const node = document.createElement("li");
+        const textNode = document.createTextNode(value);
+        node.appendChild(textNode);
+        document.getElementById("valores").appendChild(node);
+        input.value = "";
+      }
+    }
+
+    function ordenar() {
+      const ul = document.getElementById("valores");
+      const values = Array.from(ul.children).map(li => parseInt(li.innerHTML));
+      
+      const algorithm = document.getElementById("algoritmo").value;
+      if (algorithm === "bubble_sort") {
+        bubble_sort(values);
+      } else if (algorithm === "selection_sort") {
+        selection_sort(values);
+      } else if (algorithm === "quick_sort") {
+        quick_sort(values, 0, values.length - 1);
+      }
+      
+      ul.innerHTML = values.map(value => "<li>" + value + "</li>").join("");
+    }
+
+    function misturar() {
+      const ul = document.getElementById("valores");
+      const values = Array.from(ul.children).map(li => parseInt(li.innerHTML));
+      shuffle(values, values.length);
+      
+      ul.innerHTML = values.map(value => "<li>" + value + "</li>").join("");
+    }
+  </script>
+</body>
+</html>
